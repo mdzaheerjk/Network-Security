@@ -1,2 +1,3 @@
 # Network-Security
-In this comprehensive project, you will step into the shoes of a Senior ML Engineer. You won't just train a model; you will architect a robust, scalable system to detect network security threats. You will abandon ad-hoc scripting and adopt professional workflows, starting with a structured development environment 
+This project simulates a senior ML engineer role by building a scalable network threat detection system. It includes a structured dev setup, ETL pipelines, and full MLOps with MLflow + Dagshub for reproducible experiments, plus MongoDB Atlas for data management and automated ingestion/transformation.
+
