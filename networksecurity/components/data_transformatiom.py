@@ -52,11 +52,11 @@ class DataTransformation:
             train_df=DataTransformation.read_data(self.data_validation_artifact.valid_train_file_path)
             test_df=DataTransformation.read_data(self.data_validation_artifact.valid_test_file_path)
             
-            input_feature_train_df=train_df.drop(columns=[TARGET_COLUMN],axis=1)
+            input_feature_train_df=train_df.drop(columns=[TARGET_COLUMN])
             target_feature_train_df=train_df[TARGET_COLUMN]
             target_feature_train_df=target_feature_train_df.replace(-1,0)
             
-            input_feature_test_df=test_df.drop(columns=[TARGET_COLUMN],axis=1)
+            input_feature_test_df=test_df.drop(columns=[TARGET_COLUMN])
             target_feature_test_df=test_df[TARGET_COLUMN]
             target_feature_test_df=target_feature_test_df.replace(-1,0)
             

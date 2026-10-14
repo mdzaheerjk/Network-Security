@@ -1,21 +1,86 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Data Table</title>
-    <style>
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-        th, td {
-            border: 1px solid black;
-            padding: 8px;
-            text-align: left;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prediction Output // ShieldNet AI</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+  <style>
+    .table-container-wrap {
+      max-width: 1300px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+    }
+    .back-nav {
+      margin-bottom: 1.5rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.88rem;
+    }
+    .back-nav:hover {
+      text-decoration: underline;
+    }
+    .table-striped {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+      white-space: nowrap;
+    }
+    .table-striped th {
+      background: rgba(10, 15, 29, 0.95);
+      color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
+      padding: 0.85rem 1rem;
+      border-bottom: 1px solid var(--border-subtle);
+      position: sticky;
+      top: 0;
+    }
+    .table-striped td {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      color: var(--text-main);
+    }
+    .table-striped tr:hover {
+      background: rgba(255, 255, 255, 0.03);
+    }
+  </style>
 </head>
 <body>
-    <h2>Predicted Data</h2>
-    {{ table | safe }}
+  <header class="site-header">
+    <div class="nav-container">
+      <a href="/" class="brand">
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
+        </div>
+        <div class="brand-text">
+          <h1>ShieldNet AI</h1>
+          <span>Batch Security Results</span>
+        </div>
+      </a>
+      <div class="nav-actions">
+        <a href="/" class="nav-btn nav-btn-outline">← Back to Predictor</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="table-container-wrap">
+    <a href="/" class="back-nav">← Return to Interactive Prediction Studio</a>
+    <div class="card-panel">
+      <div class="panel-header">
+        <div class="panel-title">
+          <h3>Generated Security Predictions</h3>
+          <p>Model predictions evaluated across dataset records. Saved to <code>prediction_output/output.csv</code></p>
+        </div>
+      </div>
+      
+      <div class="table-responsive">
+        {{ table | safe }}
+      </div>
+    </div>
+  </div>
 </body>
 </html>

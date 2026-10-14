@@ -1,0 +1,16 @@
+[2026-10-15 00:41:03,700] 17 root -INFO -Initiate the data ingestion
+[2026-10-15 00:41:03,700] 44 root -INFO -Using local dataset from Network_Data/phisingData.csv
+[2026-10-15 00:41:03,804] 67 root -INFO -Performed train test split on the dataframe
+[2026-10-15 00:41:03,804] 69 root -INFO -Exited split_data_as_train_test method of Data_Ingestion class
+[2026-10-15 00:41:03,805] 76 root -INFO -Exporting train and test file path
+[2026-10-15 00:41:03,842] 84 root -INFO -Exported train and test file path.
+[2026-10-15 00:41:03,842] 19 root -INFO -Data Initiate Completed
+[2026-10-15 00:41:03,845] 23 root -INFO -Initiate the data Validation
+[2026-10-15 00:41:03,863] 31 root -INFO -Required number of columns : 31
+[2026-10-15 00:41:03,863] 32 root -INFO -Data frame has columns : 31
+[2026-10-15 00:41:03,863] 31 root -INFO -Required number of columns : 31
+[2026-10-15 00:41:03,863] 32 root -INFO -Data frame has columns : 31
+[2026-10-15 00:41:03,993] 25 root -INFO -data Validation Completed
+[2026-10-15 00:41:03,994] 28 root -INFO -Data Transformation Started
+[2026-10-15 00:41:03,994] 49 root -INFO -Entered initiate_data_transformation method of DataTransformation class
+[2026-10-15 00:41:03,994] 51 root -INFO -Starting data transformation

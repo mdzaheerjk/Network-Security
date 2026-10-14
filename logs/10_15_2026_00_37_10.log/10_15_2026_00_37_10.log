@@ -1,0 +1,1 @@
+[2026-10-15 00:37:12,910] 1025 httpx -INFO -HTTP Request: GET http://testserver/ "HTTP/1.1 307 Temporary Redirect"

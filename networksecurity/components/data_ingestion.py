@@ -30,15 +30,22 @@ class DataIngestion:
             collection_name=self.data_ingestion_config.collection_name
             if MONGO_DB_URL:
                 self.mongo_client=pymongo.MongoClient(MONGO_DB_URL,tlsCAFile=ca)
-            else:
-                self.mongo_client=pymongo.MongoClient(tlsCAFile=ca)
-            collection=self.mongo_client[database_name][collection_name]
+                collection=self.mongo_client[database_name][collection_name]
+                df=pd.DataFrame(list(collection.find()))
+                if "_id" in df.columns.to_list():
+                    df=df.drop(columns=["_id"])
+                df.replace({"na":np.nan},inplace=True)
+                if not df.empty:
+                    return df
             
-            df=pd.DataFrame(list(collection.find()))
-            if "_id" in df.columns.to_list():
-                df=df.drop(columns=["_id"],axis=1)
-            df.replace({"na":np.nan},inplace=True)
-            return df
+            # Local file fallback when MongoDB is not configured
+            local_csv_path = os.path.join("Network_Data", "phisingData.csv")
+            if os.path.exists(local_csv_path):
+                logging.info(f"Using local dataset from {local_csv_path}")
+                df = pd.read_csv(local_csv_path)
+                df.replace({"na": np.nan}, inplace=True)
+                return df
+            raise Exception("Neither MongoDB nor Network_Data/phisingData.csv is available.")
         except Exception as e:
             raise NetworkSecurityException(e,sys)
     

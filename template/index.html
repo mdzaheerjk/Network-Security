@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShieldNet // AI Network Security & Phishing Detector</title>
+  <meta name="description" content="State-of-the-art AI-powered phishing and network security detection system. Inspect individual URL attributes or scan batch datasets in real-time.">
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+  <!-- Top Navigation -->
+  <header class="site-header">
+    <div class="nav-container">
+      <a href="/" class="brand">
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
+        </div>
+        <div class="brand-text">
+          <h1>ShieldNet AI</h1>
+          <span>Network Security Intelligence</span>
+        </div>
+      </a>
+      
+      <div class="nav-actions">
+        <div class="status-badge">
+          <span class="status-dot"></span>
+          <span>MODEL ONLINE</span>
+        </div>
+        <a href="/sample-csv" class="nav-btn nav-btn-outline" download>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Sample CSV
+        </a>
+        <a href="/docs" target="_blank" class="nav-btn nav-btn-outline">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          API Docs
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="main-container">
+    
+    <!-- Hero Banner -->
+    <section class="hero">
+      <div class="hero-badge">ENTERPRISE PHISHING DEFENSE ENGINE</div>
+      <h2>Detect Cyber Threats in Milliseconds</h2>
+      <p>Analyze suspicious URL architecture, SSL states, and domain heuristics using machine learning models trained on network security attack patterns.</p>
+    </section>
+
+    <!-- Tab Selector -->
+    <div class="tabs-wrapper">
+      <div class="nav-tabs" role="tablist">
+        <button class="tab-btn active" data-tab="tab-single" role="tab" aria-selected="true">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          Interactive Feature Inspector
+        </button>
+        <button class="tab-btn" data-tab="tab-batch" role="tab" aria-selected="false">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+          Batch CSV Scanner
+        </button>
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- TAB 1: SINGLE URL INSPECTOR (USER INPUT)    -->
+    <!-- ========================================== -->
+    <div id="tab-single" class="tab-pane active" role="tabpanel">
+      <div class="card-panel">
+        
+        <div class="panel-header">
+          <div class="panel-title">
+            <h3>URL Heuristics & Security Attributes</h3>
+            <p>Customize the 30 security features below, or use the quick presets to test known threat vs safe vectors.</p>
+          </div>
+          
+          <div class="presets-container">
+            <button type="button" id="btn-preset-phishing" class="btn-preset btn-preset-danger">
+              <span>⚡</span> Load Phishing Example
+            </button>
+            <button type="button" id="btn-preset-safe" class="btn-preset btn-preset-safe">
+              <span>🛡️</span> Load Legitimate Example
+            </button>
+            <button type="button" id="btn-preset-reset" class="btn-preset">
+              <span>🔄</span> Reset
+            </button>
+          </div>
+        </div>
+
+        <form id="single-predict-form">
+          <div class="features-grid">
+            
+            <!-- Group 1: SSL & Protocol Security -->
+            <div class="feature-group">
+              <div class="group-header">
+                <span class="group-icon">🔐</span>
+                <span class="group-title">SSL & Protocol Security</span>
+              </div>
+              
+              <div class="field-item">
+                <div class="field-label"><span>SSLfinal State</span></div>
+                <select name="SSLfinal_State" class="field-select">
+                  <option value="1">1 (Trusted / Valid CA Certificate)</option>
+                  <option value="0">0 (Suspicious / Untrusted CA)</option>
+                  <option value="-1" selected>-1 (No SSL / Expired / Invalid)</option>
+                </select>
+              </div>
+
+              <div class="field-item">
+                <div class="field-label"><span>HTTPS Token in Domain</span></div>
+                <select name="HTTPS_token" class="field-select">
+                  <option value="1">1 (Legitimate HTTPS)</option>
+                  <option value="-1" selected>-1 (Fake Token in Hostname)</option>
+                </select>
+              </div>
+
+              <div class="field-item">
+                <div class="field-label"><span>Non-Standard Port</span></div>
+                <select name="port" class="field-select">
+                  <option value="1">1 (Standard 80 / 443 Port)</option>
+                  <option value="-1">-1 (Suspicious Non-Standard Port)</option>
+                </select>
+              </div>
+
+              <div class="field-item">
+                <div class="field-label"><span>Server Form Handler (SFH)</span></div>
+                <select name="SFH" class="field-select">
+                  <option value="1">1 (Standard Domain SFH)</option>
+                  <option value="0">0 (Different Domain SFH)</option>
+                  <option value="-1" selected>-1 (Blank / About:blank / External)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Group 2: URL Architecture -->
+            <div class="feature-group">
+              <div class="group-header">
+                <span class="group-icon">🌐</span>
+                <span class="group-title">URL Architecture & Tokens</span>
+              </div>
+              
+              <div class="field-item">
+                <div class="field-label"><span>Having IP Address</span></div>
+                <select name="having_IP_Address" class="field-select">
+                  <option value="1">1 (Uses Domain Name)</option>
+                  <option value="-1" selected>-1 (Uses Raw IP Address)</option>
+                </select>
+              </div>
+
+              <div class="field-item">
+                <div class="field-label"><span>URL Length</span></div>
+                <select name="URL_Length" class="field-select">
+                  <option value="-1">-1 (Normal Length &lt; 54 chars)</option>
+                  <option value="0">0 (Moderate 54-75 chars)</option>
+                  <option value="1" selected>1 (Suspiciously Long &gt; 75 chars)</option>
+                </select>
+              </div>
+
+              <div class="field-item">
+                <div class="field-label"><span>URL Shortening Service</span></div>
+                <select name="Shortining_Service" class="field-select">
+                  <option value="1">1 (Direct Original URL)</option>
+                  <option value="-1">-1 (Shortener e.g. bit.ly, tinyurl)</option>
+                </select>
+              </div>
+
+              <div class="field-item">
+                <div class="field-label"><span>Having @ Symbol</span></div>
+                <select name="having_At_Symbol" class="field-select">
+                  <option value="1">1 (No @ Symbol)</option>
+                  <option value="-1">-1 (Contains @ Symbol)</option>
+                </select>
+              </div>
+
+              <div class="field-item">
+                <div class="field-label"><span>Double Slash Redirecting</span></div>
+                <select name="double_slash_redirecting" class="field-select">
+                  <option value="1">1 (Normal Position)</option>
+                  <option value="-1" selected>-1 (Suspicious // After 7th Char)</option>
+                </select>
+              </div>
+
+              <div class="field-item">
+                <div class="field-label"><span>Prefix-Suffix Hyphen (-)</span></div>
+                <select name="Prefix_Suffix" class="field-select">
+                  <option value="1">1 (No Hyphen in Domain)</option>
+                  <option value="-1" selected>-1 (Hyphen Used e.g. paypal-login)</option>
+                </select>
+              </div>
+
+              <div class="field-item">
+                <div class="field-label"><span>Sub-Domains Count</span></div>
+                <select name="having_Sub_Domain" class="field-select">
+                  <option value="1">1 (Standard Subdomain)</option>
+                  <option value="0">0 (One Subdomain)</option>
+                  <option value="-1" selected>-1 (Multiple Deep Subdomains)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Group 3: Domain Reputation & Authority -->
+            <div class="feature-group">
+              <div class="group-header">
+                <span class="group-icon">🏢</span>
+                <span class="group-title">Domain Reputation & Authority</span>
+              </div>
+              
+              <div class="field-item">
+                <div class="field-label"><span>Registration Length</span></div>
+                <select name="Domain_registeration_length" class="field-select">
+                  <option value="1">1 (Registered &gt; 1 Year)</option>
+                  <option value="-1" selected>-1 (Short Registration &le; 1 Year)</option>
+                </select>
+              </div>
+
+              <div class="field-item">
+                <div class="field-label"><span>Age of Domain</span></div>
+                <select name="age_of_domain" class="field-select">
+                  <option value="1">1 (Established Domain &gt; 6 Mos)</option>
+                  <option value="-1" selected>-1 (Brand New Disposable Domain)</option>
+                </select>
+              </div>
+
+              <div class="field-item">
+                <div class="field-label"><span>DNS Record</span></div>
+                <select name="DNSRecord" class="field-select">
+                  <option value="1">1 (DNS Record Verified)</option>
+                  <option value="-1" selected>-1 (No Valid DNS Record Found)</option>
+                </select>
+              </div>
+
+              <div class="field-item">
+                <div class="field-label"><span>Google Index</span></div>
+                <select name="Google_Index" class="field-select">
+                  <option value="1">1 (Indexed on Google)</option>
+                  <option value="-1">-1 (Not Indexed on Google)</option>
+                </select>
+              </div>
+
+              <div class="field-item">
+                <div class="field-label"><span>Page Rank</span></div>
+                <select name="Page_Rank" class="field-select">
+                  <option value="1">1 (High Page Rank Authority)</option>
+                  <option value="-1" selected>-1 (Zero / Low Authority Rank)</option>
+                </select>
+              </div>
+
+              <div class="field-item">
+                <div class="field-label"><span>Web Traffic Rank</span></div>
+                <select name="web_traffic" class="field-select">
+                  <option value="1">1 (High Alexa / Tranco Traffic)</option>
+                  <option value="0">0 (Moderate Traffic)</option>
+                  <option value="-1" selected>-1 (Zero / Unknown Traffic)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Group 4: Page Content & Script Heuristics -->
+            <div class="feature-group">
+              <div class="group-header">
+                <span class="group-icon">⚡</span>
+                <span class="group-title">Page Content & Heuristics</span>
+              </div>
+
+              <div class="field-item">
+                <div class="field-label"><span>Favicon Source</span></div>
+                <select name="Favicon" class="field-select">
+                  <option value="1">1 (Internal Domain)</option>
+                  <option value="-1">-1 (External Domain Favicon)</option>
+                </select>
+              </div>
+
+              <div class="field-item">
+                <div class="field-label"><span>Request URL (Assets)</span></div>
+                <select name="Request_URL" class="field-select">
+                  <option value="1">1 (Assets on Same Domain)</option>
+                  <option value="-1">-1 (Excessive External Assets)</option>
+                </select>
+              </div>
+
+              <div class="field-item">
+                <div class="field-label"><span>URL of Anchor</span></div>
+                <select name="URL_of_Anchor" class="field-select">
+                  <option value="1">1 (Legitimate Anchor Links)</option>
+                  <option value="0">0 (Mixed Links)</option>
+                  <option value="-1" selected>-1 (Empty / Javascript / External)</option>
+                </select>
+              </div>
+
+              <div class="field-item">
+                <div class="field-label"><span>Links in Meta / Script Tags</span></div>
+                <select name="Links_in_tags" class="field-select">
+                  <option value="1">1 (Standard Meta Tag Links)</option>
+                  <option value="0">0 (Moderate External Tags)</option>
+                  <option value="-1">-1 (Suspicious External Links)</option>
+                </select>
+              </div>
+
+              <div class="field-item">
+                <div class="field-label"><span>Submitting to Email (mailto:)</span></div>
+                <select name="Submitting_to_email" class="field-select">
+                  <option value="1">1 (No Direct Email Submit)</option>
+                  <option value="-1" selected>-1 (Sends User Data to Email)</option>
+                </select>
+              </div>
+
+              <div class="field-item">
+                <div class="field-label"><span>Abnormal URL Hostname</span></div>
+                <select name="Abnormal_URL" class="field-select">
+                  <option value="1">1 (Matches WHOIS Identity)</option>
+                  <option value="-1" selected>-1 (Hostname Mismatch)</option>
+                </select>
+              </div>
+
+              <div class="field-item">
+                <div class="field-label"><span>Redirect Count</span></div>
+                <select name="Redirect" class="field-select">
+                  <option value="0">0 (&le; 1 Redirect)</option>
+                  <option value="1">1 (&ge; 2 Redirect Hops)</option>
+                </select>
+              </div>
+
+              <div class="field-item">
+                <div class="field-label"><span>on_mouseover Obscurity</span></div>
+                <select name="on_mouseover" class="field-select">
+                  <option value="1">1 (Standard Status Bar)</option>
+                  <option value="-1">-1 (Fakes URL via JS onmouseover)</option>
+                </select>
+              </div>
+
+              <div class="field-item">
+                <div class="field-label"><span>Right Click Disabled</span></div>
+                <select name="RightClick" class="field-select">
+                  <option value="1">1 (Right Click Enabled)</option>
+                  <option value="-1">-1 (Right Click Blocked by Script)</option>
+                </select>
+              </div>
+
+              <div class="field-item">
+                <div class="field-label"><span>Popup Window with Inputs</span></div>
+                <select name="popUpWidnow" class="field-select">
+                  <option value="1">1 (No Malicious Popups)</option>
+                  <option value="-1">-1 (Prompts Login via Popup)</option>
+                </select>
+              </div>
+
+              <div class="field-item">
+                <div class="field-label"><span>Hidden Iframe Redirection</span></div>
+                <select name="Iframe" class="field-select">
+                  <option value="1">1 (No Invisible Iframe)</option>
+                  <option value="-1">-1 (Invisible Iframe Present)</option>
+                </select>
+              </div>
+
+              <div class="field-item">
+                <div class="field-label"><span>Links Pointing to Page</span></div>
+                <select name="Links_pointing_to_page" class="field-select">
+                  <option value="1">1 (Many Backlinks &gt; 2)</option>
+                  <option value="0">0 (1-2 Backlinks)</option>
+                  <option value="-1">-1 (Zero Backlinks)</option>
+                </select>
+              </div>
+
+              <div class="field-item">
+                <div class="field-label"><span>Statistical Threat Feed</span></div>
+                <select name="Statistical_report" class="field-select">
+                  <option value="1">1 (Clean in PhishTank / StopBadware)</option>
+                  <option value="-1" selected>-1 (Reported in Threat Feeds)</option>
+                </select>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" id="btn-single-predict" class="btn-primary">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              Execute Security Analysis
+            </button>
+          </div>
+        </form>
+
+        <!-- Verdict Display Card -->
+        <div id="single-verdict-card" class="verdict-card">
+          <div class="verdict-layout">
+            <div id="verdict-icon" class="verdict-icon"></div>
+            <div class="verdict-details">
+              <span id="verdict-badge" class="verdict-badge"></span>
+              <h3 id="verdict-title" class="verdict-title"></h3>
+              <p id="verdict-desc" class="verdict-desc"></p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- TAB 2: BATCH CSV SCANNER                   -->
+    <!-- ========================================== -->
+    <div id="tab-batch" class="tab-pane" role="tabpanel">
+      <div class="card-panel">
+        
+        <div class="panel-header">
+          <div class="panel-title">
+            <h3>Bulk Dataset Security Scanner</h3>
+            <p>Upload a network security CSV file to evaluate multiple records simultaneously.</p>
+          </div>
+          
+          <a href="/sample-csv" class="btn-preset" download>
+            <span>📥</span> Download Test Sample (.csv)
+          </a>
+        </div>
+
+        <form id="batch-upload-form">
+          <div id="csv-dropzone" class="upload-zone">
+            <div class="upload-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            </div>
+            <h4>Drag & Drop your CSV file here</h4>
+            <p>Supports .csv files with network security & URL feature headers</p>
+            
+            <input type="file" id="csv-file-input" name="file" accept=".csv" style="display: none;">
+            <button type="button" class="btn-preset" onclick="document.getElementById('csv-file-input').click()">
+              Browse Local Files
+            </button>
+
+            <div id="selected-file-info" class="selected-file-info">
+              <span id="selected-file-name" class="file-name-text"></span>
+              <button type="button" id="btn-remove-file" class="btn-remove-file" title="Remove file">&times;</button>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" id="btn-batch-scan" class="btn-primary" disabled>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              Start Batch Scan
+            </button>
+          </div>
+        </form>
+
+        <!-- Dynamic Results Container -->
+        <div id="batch-results-container" style="display: none; margin-top: 2.5rem;">
+          
+          <!-- Metric Summary Cards -->
+          <div class="metrics-row">
+            <div class="metric-card metric-card-total">
+              <div class="metric-label">Total Records Scanned</div>
+              <div id="metric-total" class="metric-value">0</div>
+              <div class="metric-sub">Dataset volume analyzed</div>
+            </div>
+
+            <div class="metric-card metric-card-threat">
+              <div class="metric-label">Phishing Attacks Detected</div>
+              <div id="metric-phishing" class="metric-value" style="color: var(--threat-red);">0</div>
+              <div id="metric-threat-rate" class="metric-sub">0% Threat Ratio</div>
+            </div>
+
+            <div class="metric-card metric-card-safe">
+              <div class="metric-label">Legitimate / Safe URLs</div>
+              <div id="metric-safe" class="metric-value" style="color: var(--safe-green);">0</div>
+              <div class="metric-sub">Clean network traffic</div>
+            </div>
+          </div>
+
+          <!-- Table Controls -->
+          <div class="table-controls">
+            <div class="search-input-wrapper">
+              <span class="search-icon">🔍</span>
+              <input type="text" id="table-search-input" class="search-input" placeholder="Search across all columns...">
+            </div>
+
+            <div class="filter-btn-group">
+              <button type="button" class="btn-filter active" data-filter="all">All Records</button>
+              <button type="button" class="btn-filter" data-filter="phishing">⚠️ Phishing Only</button>
+              <button type="button" class="btn-filter" data-filter="safe">🛡️ Safe Only</button>
+            </div>
+
+            <button type="button" id="btn-export-csv" class="btn-preset">
+              <span>📊</span> Export Predictions (.csv)
+            </button>
+          </div>
+
+          <!-- Data Table -->
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead id="table-head"></thead>
+              <tbody id="table-body"></tbody>
+            </table>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Notification Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <script src="/static/js/main.js"></script>
+</body>
+</html>
