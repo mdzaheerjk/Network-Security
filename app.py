@@ -90,10 +90,14 @@ async def predict_single_route(request: Request):
         final_model = load_object(model_path)
         network_model = NetworkModel(preprocessor=preprocessor, model=final_model)
         
-        if TARGET_COLUMN in df.columns:
-            predict_df = df.drop(columns=[TARGET_COLUMN])
+        if hasattr(preprocessor, "feature_names_in_"):
+            expected_cols = list(preprocessor.feature_names_in_)
+            if all(col in df.columns for col in expected_cols):
+                predict_df = df[expected_cols]
+            else:
+                predict_df = df.drop(columns=[TARGET_COLUMN], errors='ignore')
         else:
-            predict_df = df
+            predict_df = df.drop(columns=[TARGET_COLUMN], errors='ignore')
             
         y_pred = network_model.predict(predict_df)
         pred_val = int(y_pred[0])
@@ -136,10 +140,14 @@ async def predict_route(request:Request,file:UploadFile=File(...)):
         final_model=load_object(model_path)
         network_model=NetworkModel(preprocessor=preprocessor,model=final_model)
         
-        if TARGET_COLUMN in df.columns:
-            predict_df = df.drop(columns=[TARGET_COLUMN])
+        if hasattr(preprocessor, "feature_names_in_"):
+            expected_cols = list(preprocessor.feature_names_in_)
+            if all(col in df.columns for col in expected_cols):
+                predict_df = df[expected_cols]
+            else:
+                predict_df = df.drop(columns=[TARGET_COLUMN], errors='ignore')
         else:
-            predict_df = df
+            predict_df = df.drop(columns=[TARGET_COLUMN], errors='ignore')
             
         y_pred=network_model.predict(predict_df)
         df['predicted_column']=y_pred

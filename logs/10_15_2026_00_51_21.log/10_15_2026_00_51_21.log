@@ -1,0 +1,2 @@
+[2026-10-15 00:51:23,411] 1025 httpx -INFO -HTTP Request: POST http://testserver/predict-single "HTTP/1.1 200 OK"
+[2026-10-15 00:51:23,426] 1025 httpx -INFO -HTTP Request: POST http://testserver/predict "HTTP/1.1 200 OK"

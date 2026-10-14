@@ -13,6 +13,10 @@ class NetworkModel:
             raise NetworkSecurityException(e,sys)
     def predict(self,x):
         try:
+            if hasattr(self.preprocessor, "feature_names_in_") and hasattr(x, "columns"):
+                expected_features = list(self.preprocessor.feature_names_in_)
+                if all(col in x.columns for col in expected_features):
+                    x = x[expected_features]
             x_transform=self.preprocessor.transform(x)
             y_hat=self.model.predict(x_transform)
             return y_hat
