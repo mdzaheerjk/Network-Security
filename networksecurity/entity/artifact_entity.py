@@ -14,6 +14,10 @@ class DataValidationArtifact:
     invalid_test_file_path:str
     drif_report_file_path:str
 
+    @property
+    def drift_report_file_path(self) -> str:
+        return self.drif_report_file_path
+
 @dataclass
 class DataTransformationArtifact:
     transformed_object_file_path:str

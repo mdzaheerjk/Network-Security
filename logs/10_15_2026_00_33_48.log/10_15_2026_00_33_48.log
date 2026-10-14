@@ -1,0 +1,6 @@
+[2026-10-15 00:33:49,977] 1025 httpx -INFO -HTTP Request: GET http://testserver/openapi.json "HTTP/1.1 200 OK"
+[2026-10-15 00:33:50,130] 40 root -INFO -Entered the save_object method of MainUtils class
+[2026-10-15 00:33:50,132] 46 root -INFO -Exited the save_object method of Mainutils class
+[2026-10-15 00:33:50,132] 40 root -INFO -Entered the save_object method of MainUtils class
+[2026-10-15 00:33:50,132] 46 root -INFO -Exited the save_object method of Mainutils class
+[2026-10-15 00:33:50,153] 1025 httpx -INFO -HTTP Request: POST http://testserver/predict "HTTP/1.1 200 OK"

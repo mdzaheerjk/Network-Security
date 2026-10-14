@@ -10,17 +10,17 @@ from networksecurity.entity.artifact_entity import (
     DataTransformationArtifact,
     DataValidationArtifact
 )
-from networksecurity.entity.config_entity import DataIngestionConfig
+from networksecurity.entity.config_entity import DataTransformationConfig
 from networksecurity.exception.exception import NetworkSecurityException
 from networksecurity.logging.logger import logging
 from networksecurity.utils.main_utils.utils import save_numpy_array_data,save_object
 
 class DataTransformation:
     def __init__(self,data_validation_artifact:DataValidationArtifact,
-                 data_transformation_config:DataTransformationArtifact):
+                 data_transformation_config:DataTransformationConfig):
         try:
             self.data_validation_artifact:DataValidationArtifact=data_validation_artifact
-            self.data_transformation_config:DataTransformationArtifact=data_transformation_config
+            self.data_transformation_config:DataTransformationConfig=data_transformation_config
         except Exception as e:
             raise NetworkSecurityException(e,sys)
     
@@ -31,7 +31,7 @@ class DataTransformation:
         except Exception as e:
             raise NetworkSecurityException(e,sys)
     
-    def get_data_transformer_object(cls)->Pipeline:
+    def get_data_transformer_object(self)->Pipeline:
         logging.info(
             "Entered get_data_transformer_object method of Transformation class"
         )
@@ -40,7 +40,7 @@ class DataTransformation:
             logging.info(
                 f"Initialise KNNImputer with {DATA_TRANSFORMATION_IMPUTER_PARAMS}"
             )
-            precessor:Pipeline=Pipeline(["imputer",imputer])
+            precessor:Pipeline=Pipeline([("imputer",imputer)])
             return precessor
         except Exception as e:
             raise NetworkSecurityException(e,sys)

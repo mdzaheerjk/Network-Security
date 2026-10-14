@@ -25,7 +25,8 @@ from networksecurity.constant.training_pipeline import SAVED_MODEL_DIR
 
 class TrainingPipeline:
     def __init__(self):
-        self.training_pipleine_config=TrainingPipelineConfig()
+        self.training_pipeline_config=TrainingPipelineConfig()
+        self.training_pipleine_config=self.training_pipeline_config
         self.s3_sync=S3Sync()
     
     def start_data_ingestion(self):
@@ -53,9 +54,9 @@ class TrainingPipeline:
     def start_data_transformation(self,data_validation_artifact:DataValidationArtifact):
         try:
             data_transformation_config=DataTransformationConfig(training_pipeline_config=self.training_pipleine_config)
-            data_transformation=DataValidation(data_validation_artifact=data_validation_artifact,
-                                           data_transformation_config=data_transformation_config)
-            data_transformation_artifact=data_transformation.initiate_data_validation()
+            data_transformation=DataTransformation(data_validation_artifact=data_validation_artifact,
+                                                   data_transformation_config=data_transformation_config)
+            data_transformation_artifact=data_transformation.initiate_data_transformation()
             return data_transformation_artifact
         except Exception as e:
             raise NetworkSecurityException(e,sys)
@@ -83,7 +84,7 @@ class TrainingPipeline:
     
     def sync_saved_model_dir_to_s3(self):
         try:
-            aws_bucket_url=f"s3//{TRAINING_BUCKET_NAME}/final_model/{self.training_pipleine_config.timestamp}"
+            aws_bucket_url=f"s3://{TRAINING_BUCKET_NAME}/final_model/{self.training_pipleine_config.timestamp}"
             self.s3_sync.sync_folder_to_s3(folder=self.training_pipleine_config.model_dir,aws_bucket_url=aws_bucket_url)
         except Exception as e:
             raise NetworkSecurityException(e,sys)

@@ -6,7 +6,9 @@ print(training_pipeline.PIPELINE_NAME)
 print(training_pipeline.ARTIFACT_DIR)
 
 class TrainingPipelineConfig:
-    def __init__(self,timestamp=datetime.now()):
+    def __init__(self,timestamp=None):
+        if timestamp is None:
+            timestamp = datetime.now()
         timestamp=timestamp.strftime("%m_%d_%Y_%H_%M_%S")
         self.pipeline_name=training_pipeline.PIPELINE_NAME
         self.artifact_name=training_pipeline.ARTIFACT_DIR
@@ -67,4 +69,5 @@ class ModelTrainingConfig:
             training_pipeline.MODEL_FILE_NAME
         )
         self.expected_accuracy:float=training_pipeline.MODEL_TRAINER_EXPECTED_SCORE
-        self.overfitting_underfitting_thresholf=training_pipeline.MODEL_TRAINER_OVER_FITTING_UNDER_THRESHOLD
+        self.overfitting_underfitting_threshold:float=training_pipeline.MODEL_TRAINER_OVER_FITTING_UNDER_THRESHOLD
+        self.overfitting_underfitting_thresholf:float=self.overfitting_underfitting_threshold

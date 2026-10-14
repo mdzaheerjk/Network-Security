@@ -8,7 +8,7 @@ def get_requirements()->List[str]:
             lines=file.readlines()
             for line in lines:
                 requirement=line.strip()
-                if requirement and requirement!="-e.":
+                if requirement and not requirement.startswith("#") and requirement not in ["-e .", "-e.", "-e"]:
                     requirement_list.append(requirement)
     except FileNotFoundError:
         print("requirements.txt file not found")

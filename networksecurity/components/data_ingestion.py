@@ -12,7 +12,10 @@ from sklearn.model_selection import train_test_split
 from dotenv import load_dotenv
 load_dotenv()
 
-MONGO_DB_URL=os.getenv("MONGO_DB_URL")
+import certifi
+ca=certifi.where()
+
+MONGO_DB_URL=os.getenv("MONGO_DB_URL") or os.getenv("MONGODB_URL_KEY")
 
 class DataIngestion:
     def __init__(self,data_ingestion_config:DataIngestionConfig):
@@ -25,7 +28,10 @@ class DataIngestion:
         try:
             database_name=self.data_ingestion_config.database_name
             collection_name=self.data_ingestion_config.collection_name
-            self.mongo_client=pymongo.MongoClient(MONGO_DB_URL)
+            if MONGO_DB_URL:
+                self.mongo_client=pymongo.MongoClient(MONGO_DB_URL,tlsCAFile=ca)
+            else:
+                self.mongo_client=pymongo.MongoClient(tlsCAFile=ca)
             collection=self.mongo_client[database_name][collection_name]
             
             df=pd.DataFrame(list(collection.find()))
@@ -34,14 +40,14 @@ class DataIngestion:
             df.replace({"na":np.nan},inplace=True)
             return df
         except Exception as e:
-            raise NetworkSecurityException
+            raise NetworkSecurityException(e,sys)
     
     def export_data_into_feature_store(self,dataframe:pd.DataFrame):
         try:
             feature_store_file_path=self.data_ingestion_config.feature_store_file_path
             dir_path=os.path.dirname(feature_store_file_path)
             os.makedirs(dir_path,exist_ok=True)
-            dataframe.to_csv(feature_store_file_path,index=True,header=True)
+            dataframe.to_csv(feature_store_file_path,index=False,header=True)
             return dataframe
         except Exception as e:
             raise NetworkSecurityException(e,sys)
